@@ -35,10 +35,10 @@ To get started with the project, follow these steps:
 4. **Run the app**:
 
    ```bash
-   npm start
+   npm run dev
    ```
 
-   This will start the app on [http://localhost:3000](http://localhost:3000).
+   This will start the app on [http://localhost:5173](http://localhost:5173).
 
 ## Usage
 
@@ -74,6 +74,7 @@ You can see the live version of this project at:
 ## Technologies Used
 
 - **React**: Frontend JavaScript library for building user interfaces.
+- **Vite**: A fast build tool and development server.
 - **React Context API**: For managing global state (selected date, events).
 - **Local Storage**: For persisting event data in the browser.
 - **JavaScript**: For handling event logic and filtering functionality.
