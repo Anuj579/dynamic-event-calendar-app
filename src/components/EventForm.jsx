@@ -5,7 +5,7 @@ import { Label } from "../components/ui/label"
 import { useCalendar } from '../contexts/CalendarContext'
 
 function EventForm() {
-    const { selectedDate, handleAddEvent, handleUpdateEvent, editingEvent } = useCalendar()
+    const { events, selectedDate, handleAddEvent, handleUpdateEvent, editingEvent } = useCalendar()
 
     const [eventDetails, setEventDetails] = useState({
         date: selectedDate,
@@ -23,17 +23,33 @@ function EventForm() {
 
     const handleInputChange = (e) => setEventDetails({ ...eventDetails, [e.target.name]: e.target.value })
 
+    // To prevent overlapping of events
+    const eventsOverlapping = (eventData) => {
+        return events.some(event => {
+            if (editingEvent && event.id === editingEvent.id) {
+                return false;
+            }
+            return new Date(event.date).toDateString() === new Date(eventData.date).toDateString() &&
+                (event.startTime < eventData.endTime && event.endTime > eventData.startTime)
+        })
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault()
         const eventData = { ...eventDetails, id: editingEvent ? editingEvent.id : Date.now() }
-        try {
-            if (editingEvent) {
-                handleUpdateEvent(eventData)
-            } else {
-                handleAddEvent(eventData)
+
+        if (eventsOverlapping(eventData)) {
+            alert("Time overlaps with another event. Please adjust.");
+        } else {
+            try {
+                if (editingEvent) {
+                    handleUpdateEvent(eventData)
+                } else {
+                    handleAddEvent(eventData)
+                }
+            } catch (error) {
+                console.error("Error in adding events:", error);
             }
-        } catch (error) {
-            console.log("Error in adding events:", error);
         }
     }
 

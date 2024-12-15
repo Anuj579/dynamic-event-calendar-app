@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react'
 import { useCalendar } from '../contexts/CalendarContext';
 
 function Calendar() {
